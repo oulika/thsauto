@@ -12,6 +12,16 @@ import os
 
 from PIL import Image
 import ddddocr
+
+import jqktrader
+
+user = jqktrader.use()
+
+user.connect(
+  exe_path=r'C:\同花顺软件\同花顺\xiadan.exe',
+  tesseract_cmd=r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+)
+
 DdddOcr = ddddocr.DdddOcr()
 
 from const import VK_CODE, BALANCE_CONTROL_ID_GROUP
@@ -233,72 +243,10 @@ class ThsAuto:
         return {'code': 1, 'status': 'failed'}
 
     def sell(self, stock_no, amount, price):
-        self.switch_to_normal()
-        hot_key(['F2'])
-        time.sleep(sleep_time)
-        hwnd = self.get_right_hwnd()
-        ctrl = win32gui.GetDlgItem(hwnd, 0x408)
-        set_text(ctrl, stock_no)
-        time.sleep(sleep_time)
-        if price is not None:
-            time.sleep(sleep_time)
-            price = '%.3f' % price
-            ctrl = win32gui.GetDlgItem(hwnd, 0x409)
-            set_text(ctrl, price)
-            time.sleep(sleep_time)
-        ctrl = win32gui.GetDlgItem(hwnd, 0x40A)
-        set_text(ctrl, str(amount))
-        time.sleep(sleep_time)
-        hot_key(['enter'])
-        result = None
-        retry = 0
-        while retry < retry_time:
-            time.sleep(sleep_time)
-            result = self.get_result()
-            if result:
-                hot_key(['enter'])
-                return result
-            hot_key(['y'])
-            retry += 1
-        return {
-            'code': 2,
-            'status': 'unknown',
-            'msg': '获取结果失败,请自行确认订单状态',
-        }
+        user.sell(stock_no,price,amount)
 
     def buy(self, stock_no, amount, price):
-        self.switch_to_normal()
-        hot_key(['F1'])
-        time.sleep(sleep_time)
-        hwnd = self.get_right_hwnd()
-        ctrl = win32gui.GetDlgItem(hwnd, 0x408)
-        set_text(ctrl, stock_no)
-        time.sleep(sleep_time)
-        if price is not None:
-            time.sleep(sleep_time)
-            price = '%.3f' % price
-            ctrl = win32gui.GetDlgItem(hwnd, 0x409)
-            set_text(ctrl, price)
-            time.sleep(sleep_time)
-        ctrl = win32gui.GetDlgItem(hwnd, 0x40A)
-        set_text(ctrl, str(amount))
-        time.sleep(sleep_time)
-        hot_key(['enter'])
-        result = None
-        retry = 0
-        while retry < retry_time:
-            time.sleep(sleep_time)
-            result = self.get_result()
-            if result:
-                hot_key(['enter'])
-                return result
-            hot_key(['y'])
-            retry += 1
-        return {
-            'code': 2,
-            'status': 'unknown',
-            'msg': '获取结果失败,请自行确认订单状态',
-        }
+        user.buy(stock_no, price, amount)
 
     def sell_kc(self, stock_no, amount, price):
         self.switch_to_kechuang()
