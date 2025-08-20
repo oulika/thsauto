@@ -5,7 +5,7 @@
 python .\server.py  192.168.31.177 5000 C:\同花顺软件\同花顺\xiadan.exe
 ```
 - 查询资金账户  
-http://192.168.31.177:5000/thsauto/balance  
+    http://192.168.31.177:5000/thsauto/balance  
 - 查询持仓  
 http://192.168.31.177:5000/thsauto/position  
 - 买入下单  

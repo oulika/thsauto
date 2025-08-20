@@ -159,42 +159,17 @@ class ThsAuto:
         return 0
 
     def get_balance(self):
-        self.switch_to_normal()
-        hot_key(['F4'])
-        self.refresh()
-        hwnd = self.get_right_hwnd()
-        data = {}
-        for key, cid in BALANCE_CONTROL_ID_GROUP.items():
-            ctrl = win32gui.GetDlgItem(hwnd, cid)
-            if ctrl > 0 and win32gui.IsWindowVisible(ctrl):
-                data[key] = get_text(ctrl)
+
         return {
             'code': 0, 'status': 'succeed',
-            'data': data,
+            'data': user.balance,
         }
         
     def get_position(self):
-        self.switch_to_normal()
-        hot_key(['F1'])
-        hot_key(['F6'])
-        self.refresh()
-        hwnd = self.get_right_hwnd()
-        ctrl = win32gui.GetDlgItem(hwnd, 0x417)
-
-        self.copy_table(ctrl)
-
-        data = None
-        retry = 0
-        while not data and retry < retry_time:
-            retry += 1
-            time.sleep(sleep_time)
-            data = get_clipboard_data()
-        if data:
-            return {
-                'code': 0, 'status': 'succeed',
-                'data': parse_table(data),
-            }
-        return {'code': 1, 'status': 'failed'}
+        return {
+            'code': 0, 'status': 'succeed',
+            'data': user.position,
+        }
 
     def get_active_orders(self):
         self.switch_to_normal()
