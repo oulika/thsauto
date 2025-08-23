@@ -13,6 +13,8 @@ import pywinauto.clipboard
 from jqktrader.log import logger
 from jqktrader.utils.captcha import captcha_recognize
 from jqktrader.utils.win_gui import ShowWindow, win32defines
+import ddddocr
+DdddOcr = ddddocr.DdddOcr()
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import
@@ -110,8 +112,10 @@ class Copy(BaseStrategy):
                         file_path
                     )  # 保存验证码
 
-                    captcha_num = captcha_recognize(file_path).strip()  # 识别验证码
-                    captcha_num = "".join(captcha_num.split())
+                    with open('tmp.png', 'rb') as f:
+                        data = f.read()
+                        captcha_num = DdddOcr.classification(data)
+
                     logger.info("captcha result-->" + captcha_num)
                     if len(captcha_num) == 4:
                         self._trader.app.top_window().window(
@@ -152,7 +156,10 @@ class Copy(BaseStrategy):
         count = 5
         while count > 0:
             try:
+
+                Copy._need_captcha_reg = True
                 return pywinauto.clipboard.GetData()
+
             # pylint: disable=broad-except
             except Exception as e:
                 count -= 1
