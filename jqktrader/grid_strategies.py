@@ -117,7 +117,7 @@ class Copy(BaseStrategy):
                         captcha_num = DdddOcr.classification(data)
 
                     logger.info("captcha result-->" + captcha_num)
-                    if len(captcha_num) == 4:
+                    if len(captcha_num) == 5:
                         self._trader.app.top_window().window(
                             control_id=0x964, class_name="Edit"
                         ).set_focus()
