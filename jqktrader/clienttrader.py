@@ -500,14 +500,9 @@ class ClientTrader(IClientTrader):
         )
 
     def _type_edit_control_keys(self, control_id, text):
-        if not self._editor_need_type_keys:
-            self._main.child_window(
-                control_id=control_id, class_name="Edit"
-            ).set_edit_text(text)
-        else:
-            editor = self._main.child_window(control_id=control_id, class_name="Edit")
-            editor.select()
-            editor.type_keys(text)
+        editor = self._main.child_window(control_id=control_id, class_name="Edit")
+        editor.select()
+        editor.type_keys(text)
 
     def type_edit_control_keys(self, editor, text):
         if not self._editor_need_type_keys:

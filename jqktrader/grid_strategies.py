@@ -2,6 +2,8 @@
 import abc
 import io
 import tempfile
+import pyautogui
+
 from io import StringIO
 from typing import TYPE_CHECKING, Dict, List, Optional
 
@@ -122,9 +124,10 @@ class Copy(BaseStrategy):
                             control_id=0x964, class_name="Edit"
                         ).set_focus()
 
-                        pywinauto.keyboard.SendKeys("{BKSP}{BKSP}{BKSP}{BKSP}")
+                        # 安装：pip install pyautogui
 
-                        pywinauto.keyboard.SendKeys(captcha_num)
+                        # 方法1：直接输入
+                        pyautogui.write(captcha_num, interval=0.1)
 
                         self._trader.app.top_window().set_focus()
                         pywinauto.keyboard.SendKeys("{ENTER}")  # 模拟发送enter，点击确定

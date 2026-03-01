@@ -82,7 +82,7 @@ def auto_login_calculated_coordinates(username, password):
         #1. 点击账号输入框
         print("输入账号...")
 
-        human_like_mouse_move(center_x, account_y, chaos=2)
+        # human_like_mouse_move(center_x, account_y, chaos=2)
         # 使用WindMouse算法移动到目标点，轨迹自然弯曲，速度有变化
 
         pyautogui.click(center_x, account_y)
@@ -98,7 +98,7 @@ def auto_login_calculated_coordinates(username, password):
         hw_sim.type_string(username)
         time.sleep(1)
 
-        human_like_mouse_move(center_x, password_y, chaos=2)
+        # human_like_mouse_move(center_x, password_y, chaos=2)
 
         # 2. 点击密码输入框
         print("输入密码...")
@@ -116,7 +116,7 @@ def auto_login_calculated_coordinates(username, password):
 
         # 输入密码
         # pyautogui.write(password)
-        time.sleep(5)
+        # time.sleep(5)
 
         # 3. 点击登录按钮
         print("点击登录...")
