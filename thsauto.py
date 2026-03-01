@@ -15,12 +15,7 @@ import ddddocr
 
 import jqktrader
 
-user = jqktrader.use()
 
-user.connect(
-  exe_path=r'C:\同花顺软件\同花顺\xiadan.exe',
-  tesseract_cmd=r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-)
 
 DdddOcr = ddddocr.DdddOcr()
 
@@ -39,6 +34,7 @@ def get_clipboard_data():
     finally:
         win32clipboard.CloseClipboard()
     return data
+
 
 def hot_key(keys):
     time.sleep(sleep_time)
@@ -84,7 +80,18 @@ def parse_table(text):
 class ThsAuto:
 
     def __init__(self):
+        # self.connect()
         self.hwnd_main = None
+        self.user = None
+
+
+    def connect(self):
+        self.user = jqktrader.use()
+
+        self.user.connect(
+            exe_path=r'C:\广发证券至诚版\xiadan.exe',
+            tesseract_cmd=r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+        )
 
     def bind_client(self):
         hwnd = win32gui.FindWindow(None, window_title)
@@ -162,13 +169,13 @@ class ThsAuto:
 
         return {
             'code': 0, 'status': 'succeed',
-            'data': user.balance,
+            'data': self.user.balance,
         }
         
     def get_position(self):
         return {
             'code': 0, 'status': 'succeed',
-            'data': user.position,
+            'data': self.user.position,
         }
 
     def get_active_orders(self):
@@ -176,7 +183,7 @@ class ThsAuto:
 
         return {
             'code': 0, 'status': 'succeed',
-            'data': user.today_entrusts,
+            'data': self.user.today_entrusts,
         }
 
         
@@ -204,10 +211,10 @@ class ThsAuto:
         return {'code': 1, 'status': 'failed'}
 
     def sell(self, stock_no, amount, price):
-        user.sell(stock_no,price,amount)
+        self.user.sell(stock_no,price,amount)
 
     def buy(self, stock_no, amount, price):
-        user.buy(stock_no, price, amount)
+        self.user.buy(stock_no, price, amount)
 
     def sell_kc(self, stock_no, amount, price):
         self.switch_to_kechuang()

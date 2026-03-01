@@ -1,5 +1,7 @@
 import functools
 from flask import Flask, request, jsonify
+
+import autologin3
 from thsauto import ThsAuto
 import time
 import sys
@@ -11,6 +13,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 auto = ThsAuto()
+
 
 client_path = None
 def run_client():
@@ -52,6 +55,14 @@ def get_position():
     auto.active_mian_window()
     result = auto.get_position()
     return jsonify(result), 200
+
+@app.route('/thsauto/login', methods = ['GET'])
+@interval_call
+def get_login():
+    autologin3.main()
+    time.sleep(5)
+    auto.connect()
+    return jsonify('suc'), 200
 
 @app.route('/thsauto/orders/active', methods = ['GET'])
 @interval_call

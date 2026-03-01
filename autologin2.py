@@ -1,7 +1,13 @@
+import random
+
 import pywinauto
 from pywinauto import Application, Desktop
 import time
 
+from Winmouse import human_like_mouse_move
+from hardwareMoni import HardwareKeyboardSimulator
+
+hw_sim = HardwareKeyboardSimulator()
 
 def auto_login_calculated_coordinates(username, password):
     """
@@ -59,7 +65,7 @@ def auto_login_calculated_coordinates(username, password):
     account_y = window_top + int(segment_height * 3.8)
 
     # 第5行（密码）: 4.5份的偏移
-    password_y = window_top + int(segment_height * 4.8)
+    password_y = window_top + int(segment_height * 4.6)
 
     # 第7行（登录）: 6.5份的偏移
     login_y = window_top + int(segment_height * 6.8)
@@ -73,40 +79,53 @@ def auto_login_calculated_coordinates(username, password):
         # 导入pyautogui用于鼠标操作
         import pyautogui
 
-        # 1. 点击账号输入框
-        # print("输入账号...")
-        # pyautogui.click(center_x, account_y)
-        # time.sleep(0.5)
-        #
-        # # 清空可能存在的旧内容
+        #1. 点击账号输入框
+        print("输入账号...")
+
+        human_like_mouse_move(center_x, account_y, chaos=2)
+        # 使用WindMouse算法移动到目标点，轨迹自然弯曲，速度有变化
+
+        pyautogui.click(center_x, account_y)
+        time.sleep(5)
+
+        # 清空可能存在的旧内容
         # pyautogui.hotkey('ctrl', 'a')
-        # pyautogui.press('delete')
-        # time.sleep(0.3)
-        #
-        # # 输入账号
+        pyautogui.press('delete')
+        time.sleep(1)
+
+        # 输入账号
         # pyautogui.write(username)
-        # time.sleep(0.5)
+        hw_sim.type_string(username)
+        time.sleep(1)
+
+        human_like_mouse_move(center_x, password_y, chaos=2)
 
         # 2. 点击密码输入框
         print("输入密码...")
         pyautogui.click(center_x, password_y)
-        time.sleep(0.5)
-        #
-        # # 清空可能存在的旧内容
-        # pyautogui.hotkey('ctrl', 'a')
-        # pyautogui.press('delete')
-        # time.sleep(0.3)
+        time.sleep(5)
+
+        # 清空可能存在的旧内容
+        pyautogui.press('enter')
+        time.sleep(1)
+
+        pyautogui.press('enter')
+        time.sleep(1)
+
+        hw_sim.type_string(password)
 
         # 输入密码
-        pyautogui.write(password)
-        time.sleep(0.5)
+        # pyautogui.write(password)
+        time.sleep(5)
 
         # 3. 点击登录按钮
         print("点击登录...")
+        human_like_mouse_move(center_x, login_y, chaos=2)
         pyautogui.click(center_x, login_y)
-
-        # 或者尝试按回车键
         # pyautogui.press('enter')
+        # 或者尝试按回车键
+        #
+
 
         print("登录操作完成")
         return True
@@ -176,6 +195,10 @@ def auto_login_adjustable(username, password, x_offset=0, y_offset_account=0, y_
         print(f"错误: {e}")
         return False
 
+
+def random_sleep(min_sec=0.3, max_sec=1.5):
+    """随机睡眠，模拟人类反应时间"""
+    time.sleep(random.uniform(min_sec, max_sec))
 
 # 调试版本：显示点击位置并等待确认
 def auto_login_debug_mode(username, password):
