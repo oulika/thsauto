@@ -56,13 +56,13 @@ def auto_login_calculated_coordinates(username, password):
 
     # 根据7等分计算各元素的Y坐标
     # 第4行（账号）: 3.5份的偏移（取中间值）
-    account_y = window_top + int(segment_height * 3.5)
+    account_y = window_top + int(segment_height * 3.8)
 
     # 第5行（密码）: 4.5份的偏移
-    password_y = window_top + int(segment_height * 4.5)
+    password_y = window_top + int(segment_height * 4.8)
 
     # 第7行（登录）: 6.5份的偏移
-    login_y = window_top + int(segment_height * 6.5)
+    login_y = window_top + int(segment_height * 6.8)
 
     print(f"垂直7等分高度: {segment_height:.1f}px")
     print(f"账号位置: ({center_x}, {account_y})")
@@ -74,28 +74,28 @@ def auto_login_calculated_coordinates(username, password):
         import pyautogui
 
         # 1. 点击账号输入框
-        print("输入账号...")
-        pyautogui.click(center_x, account_y)
-        time.sleep(0.5)
-
-        # 清空可能存在的旧内容
-        pyautogui.hotkey('ctrl', 'a')
-        pyautogui.press('delete')
-        time.sleep(0.3)
-
-        # 输入账号
-        pyautogui.write(username)
-        time.sleep(0.5)
+        # print("输入账号...")
+        # pyautogui.click(center_x, account_y)
+        # time.sleep(0.5)
+        #
+        # # 清空可能存在的旧内容
+        # pyautogui.hotkey('ctrl', 'a')
+        # pyautogui.press('delete')
+        # time.sleep(0.3)
+        #
+        # # 输入账号
+        # pyautogui.write(username)
+        # time.sleep(0.5)
 
         # 2. 点击密码输入框
         print("输入密码...")
         pyautogui.click(center_x, password_y)
         time.sleep(0.5)
-
-        # 清空可能存在的旧内容
-        pyautogui.hotkey('ctrl', 'a')
-        pyautogui.press('delete')
-        time.sleep(0.3)
+        #
+        # # 清空可能存在的旧内容
+        # pyautogui.hotkey('ctrl', 'a')
+        # pyautogui.press('delete')
+        # time.sleep(0.3)
 
         # 输入密码
         pyautogui.write(password)
@@ -195,9 +195,9 @@ def auto_login_debug_mode(username, password):
     center_x = rect.left + window_width // 2
     segment_height = window_height / 7
 
-    account_y = rect.top + int(segment_height * 3.5)
-    password_y = rect.top + int(segment_height * 4.5)
-    login_y = rect.top + int(segment_height * 6.5)
+    account_y = rect.top + int(segment_height * 3.7)
+    password_y = rect.top + int(segment_height * 4.7)
+    login_y = rect.top + int(segment_height * 6.7)
 
     print("=== 调试信息 ===")
     print(f"窗口区域: L={rect.left}, T={rect.top}, W={window_width}, H={window_height}")
@@ -244,12 +244,12 @@ def auto_login_debug_mode(username, password):
 # 使用示例
 if __name__ == "__main__":
     # 设置你的账号密码
-    USERNAME = "your_username"
-    PASSWORD = "your_password"
+    USERNAME = "027001037171"
+    PASSWORD = "025183"
 
     # 首次运行建议使用调试模式
     print("首次运行请使用调试模式确认坐标")
-    choice = input("选择模式: 1-标准模式, 2-调试模式, 3-可调模式: ")
+    choice = 1
 
     if choice == "1":
         success = auto_login_calculated_coordinates(USERNAME, PASSWORD)
